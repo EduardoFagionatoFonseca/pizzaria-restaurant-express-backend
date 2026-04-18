@@ -5,13 +5,14 @@ export const isAdmin = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
+): Promise<void> => {
   const user_id = req.user_id;
 
   if (!user_id) {
-    return res.status(401).json({
+    res.status(401).json({
       error: "User without permission",
     });
+    return;
   }
 
   const user = await prismaClient.user.findFirst({
@@ -21,15 +22,17 @@ export const isAdmin = async (
   });
 
   if (!user) {
-    return res.status(401).json({
+    res.status(401).json({
       error: "User without permission",
     });
+    return;
   }
 
   if (user.role !== "ADMIN") {
-    return res.status(401).json({
+    res.status(401).json({
       error: "User without permission",
     });
+    return;
   }
 
   //if user is admin, continue
