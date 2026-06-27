@@ -959,3 +959,197 @@ npm run dev
 
 **Documento atualizado em**: 18/04/2026  
 **Versão do Projeto**: 1.1.0 (categorias `/categories`, produtos `POST /product` + Cloudinary)
+ 
+
+## Atualizacao Consolidada - 27/06/2026
+
+Esta secao consolida o estado atual do backend e substitui informacoes antigas deste documento que ficaram desatualizadas.
+
+### Versoes atuais do `package.json`
+
+Dependencias:
+
+| Pacote | Versao |
+| --- | --- |
+| `@prisma/adapter-pg` | `^7.7.0` |
+| `@prisma/client` | `^7.7.0` |
+| `bcryptjs` | `^3.0.3` |
+| `cloudinary` | `^2.9.0` |
+| `cors` | `^2.8.6` |
+| `dotenv` | `^17.4.2` |
+| `express` | `^5.2.1` |
+| `jsonwebtoken` | `^9.0.3` |
+| `multer` | `^2.1.1` |
+| `pg` | `^8.20.0` |
+| `tsx` | `^4.21.0` |
+| `zod` | `^4.3.6` |
+
+Dev dependencies:
+
+| Pacote | Versao |
+| --- | --- |
+| `@types/cors` | `^2.8.19` |
+| `@types/express` | `^5.0.6` |
+| `@types/jsonwebtoken` | `^9.0.10` |
+| `@types/multer` | `^2.1.0` |
+| `@types/node` | `^25.9.4` |
+| `@types/pg` | `^8.20.0` |
+| `prisma` | `^6.19.3` |
+| `typescript` | `^6.0.2` |
+
+### Estrutura atual relevante
+
+Arquivos de pedidos/itens presentes hoje:
+
+```text
+src/controllers/order/AddItemToOrderController.ts
+src/controllers/order/CreateOrderController.ts
+src/controllers/order/DeleteItemController.ts
+src/controllers/order/ListOrdersController.ts
+src/services/order/AddItemToOrderService.ts
+src/services/order/CreateOrderService.ts
+src/services/order/DeleteItemService.ts
+src/services/order/ListOrdersService.ts
+src/schemas/orderSchema.ts
+```
+
+Arquivos de produtos presentes hoje:
+
+```text
+src/controllers/product/CreateProductController.ts
+src/controllers/product/DeleteProductController.ts
+src/controllers/product/ListProductByCategoryController.ts
+src/controllers/product/ListProductsController.ts
+src/services/product/CreateProductService.ts
+src/services/product/DeleteProductService.ts
+src/services/product/ListProductByCategoryService.ts
+src/services/product/ListProductsService.ts
+src/schemas/productSchema.ts
+```
+
+### Prisma e banco
+
+O schema atual usa:
+
+```prisma
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+```
+
+A URL do banco fica em `prisma.config.ts`, carregada de `process.env["DATABASE_URL"]`.
+
+O model `Item` possui o campo `total Int`, calculado no `AddItemToOrderService` como:
+
+```ts
+total: productExists.price * amount
+```
+
+### Rotas atuais
+
+Usuarios:
+
+- `POST /users` - cria usuario com `validateSchema(createUserSchema)`.
+- `POST /session` - autentica usuario com `validateSchema(authUserSchema)`.
+- `POST /me` - retorna usuario autenticado. Observacao: a rota atual e `POST`, nao `GET`.
+
+Categorias:
+
+- `GET /categories` - autenticada.
+- `POST /categories` - autenticada, admin e validada com `categorySchema`.
+
+Produtos:
+
+- `GET /products` - autenticada, aceita query `disabled` e usa `listProductsSchema`.
+- `POST /product` - autenticada, admin, multipart `file` e `createProductSchema`.
+- `DELETE /product` - autenticada e admin, recebe `product_id` por query e marca `disabled = true`.
+- `GET /category/product` - autenticada, recebe `category_id` por query e usa `listProductByCategorySchema`.
+
+Pedidos e itens:
+
+- `POST /order` - autenticada, cria pedido com `createOrderSchema`.
+- `GET /orders` - autenticada, lista pedidos filtrando por query `draft`.
+- `POST /order/:order_id/items` - autenticada, adiciona item ao pedido com `addItemSchema`.
+- `DELETE /items/:item_Id` - autenticada, remove item do pedido com `deleteItemSchema`.
+
+### Schema de pedidos atual
+
+`createOrderSchema` valida:
+
+```ts
+body: {
+  table: number;
+  name: string;
+}
+```
+
+`addItemSchema` valida:
+
+```ts
+body: {
+  product_id: uuid;
+  amount: number inteiro positivo;
+},
+params: {
+  order_id: uuid;
+}
+```
+
+`deleteItemSchema` valida:
+
+```ts
+params: {
+  item_Id: uuid;
+}
+```
+
+### Regra da rota `DELETE /items/:item_Id`
+
+A rota foi criada seguindo controller + service + schema:
+
+- `routes.ts` aplica `isAuthenticated` e `validateSchema(deleteItemSchema)`.
+- `DeleteItemController` extrai `item_Id` dos params.
+- `DeleteItemService` verifica se o item existe com `findUnique`.
+- Se nao existir, lanca `Item not found`.
+- Se existir, remove com `prismaClient.item.delete`.
+- Resposta de sucesso:
+
+```json
+{
+  "message": "Item successfully deleted"
+}
+```
+
+### Configuracoes atuais
+
+`tsconfig.json` usa `strict: true`, `rootDir: "./src"`, `outDir: "./dist"` e `types: ["node"]`.
+
+Como `prisma.config.ts` fica fora de `src/**/*`, ele possui `/// <reference types="node" />` no topo para reconhecer `process.env`.
+
+Scripts atuais:
+
+```json
+{
+  "dev": "tsx watch src/server.ts",
+  "test": "echo \"Error: no test specified\" && exit 1"
+}
+```
+
+### Observacoes de boas praticas usadas no projeto
+
+- Controllers devem continuar finos: extrair dados, chamar service e retornar resposta.
+- Services concentram regras de negocio e acesso ao Prisma.
+- Schemas Zod validam `body`, `query` e `params` antes do controller.
+- Rotas administrativas usam `isAuthenticated` + `isAdmin`.
+- Rotas de pedido/item usam `isAuthenticated`.
+- O error handler global transforma erros lancados em resposta `400`.
+
+---
+
+**Documento atualizado em**: 27/06/2026  
+**Versao do Projeto documentada**: 1.2.0 (orders/items, listagem de produtos, delete de item e configuracao Prisma atual)

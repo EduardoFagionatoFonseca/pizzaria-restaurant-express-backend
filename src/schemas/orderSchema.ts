@@ -21,3 +21,15 @@ export const addItemSchema = z.object({
     order_id: z.uuid().min(1),
   }),
 });
+
+export const deleteItemSchema = z.object({
+  params: z.object({
+    item_Id: z.uuid().min(1),
+  }),
+});
+
+export const detailOrderSchema = z.object({
+  params: z.object({
+    order_id: z.uuid().min(1),
+  }),
+});
