@@ -33,3 +33,26 @@ export const detailOrderSchema = z.object({
     order_id: z.uuid().min(1),
   }),
 });
+
+export const sendOrderSchema = z.object({
+  params: z.object({
+    order_id: z.uuid({ message: "order_id must be a valid uuid" }),
+  }),
+  body: z
+    .object({
+      name: z.string().optional(),
+    })
+    .optional(),
+});
+
+export const finishOrderSchema = z.object({
+  params: z.object({
+    order_id: z.uuid({ message: "order_id must be a valid uuid" }),
+  }),
+});
+
+export const deleteOrderSchema = z.object({
+  params: z.object({
+    order_id: z.uuid({ message: "order_id must be a valid uuid" }),
+  }),
+});
