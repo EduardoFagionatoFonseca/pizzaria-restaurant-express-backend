@@ -19,3 +19,9 @@ export const listProductsSchema = z.object({
     disabled: z.string().optional().default("false"),
   }),
 });
+
+export const listProductByCategorySchema = z.object({
+  query: z.object({
+    category_id: z.string(),
+  }),
+});
