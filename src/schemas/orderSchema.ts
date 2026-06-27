@@ -11,3 +11,13 @@ export const createOrderSchema = z.object({
       .min(1, { message: "O nome do cliente e obrigatorio" }),
   }),
 });
+
+export const addItemSchema = z.object({
+  body: z.object({
+    product_id: z.uuid().min(1),
+    amount: z.number().int().positive(),
+  }),
+  params: z.object({
+    order_id: z.uuid().min(1),
+  }),
+});
