@@ -3,11 +3,18 @@ import { CreateCategoryService } from "../../services/category/CreateCategorySer
 
 export class CreateCategoryController {
   async handle(req: Request, res: Response) {
-    const { name } = req.body;
+    try {
+      const { name } = req.body;
 
-    const createCategory = new CreateCategoryService();
-    const category = await createCategory.execute({ name: name });
+      const createCategory = new CreateCategoryService();
+      const category = await createCategory.execute({ name: name });
 
-    return res.status(201).json(category);
+      return res.status(201).json(category);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error: "Não foi possível criar a categoria. Verifique o nome informado.",
+      });
+    }
   }
 }

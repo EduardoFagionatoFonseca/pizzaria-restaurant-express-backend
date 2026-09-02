@@ -3,11 +3,18 @@ import { ListProductsByCategoryService } from "../../services/product/ListProduc
 
 export class ListProductByCategoryController {
   async handle(req: Request, res: Response) {
-    const category_id = req.query.category_id as string;
+    try {
+      const category_id = req.query.category_id as string;
 
-    const ListService = new ListProductsByCategoryService();
+      const ListService = new ListProductsByCategoryService();
 
-    const products = await ListService.execute({ category_id });
-    return res.status(200).json(products);
+      const products = await ListService.execute({ category_id });
+      return res.status(200).json(products);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        error: "Não foi possível carregar os produtos desta categoria.",
+      });
+    }
   }
 }

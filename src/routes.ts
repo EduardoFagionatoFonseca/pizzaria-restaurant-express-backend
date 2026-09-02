@@ -5,7 +5,11 @@ import { CreateUserController } from "./controllers/user/CreateUserController";
 import { validateSchema } from "./middlewares/validateSchema";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { isAdmin } from "./middlewares/isAdmin";
-import { createUserSchema, authUserSchema } from "./schemas/userSchema";
+import {
+  createUserSchema,
+  authUserSchema,
+  promoteUserSchema,
+} from "./schemas/userSchema";
 import { categorySchema } from "./schemas/categorySchema";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailUserController } from "./controllers/user/DetailUserController";
@@ -37,6 +41,7 @@ import { DetailOrderController } from "./controllers/order/DetailOrderController
 import { SendOrderController } from "./controllers/order/SendOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 import { DeleteOrderController } from "./controllers/order/DeleteOrderController";
+import { PromoteUserController } from "./controllers/user/PromoteUserController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -54,8 +59,15 @@ router.post(
   new AuthUserController().handle,
 );
 
-router.post("/me", isAuthenticated, new DetailUserController().handle);
+router.get("/me", isAuthenticated, new DetailUserController().handle);
 
+router.patch(
+  "/promote",
+  validateSchema(promoteUserSchema),
+  isAuthenticated,
+  isAdmin,
+  new PromoteUserController().handle,
+);
 // Rotas Categories
 router.get(
   "/categories",

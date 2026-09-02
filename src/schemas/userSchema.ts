@@ -20,3 +20,9 @@ export const authUserSchema = z.object({
       .min(1, { message: "password is required" }),
   }),
 });
+
+export const promoteUserSchema = z.object({
+  body: z.object({
+    userId: z.string(),
+  }),
+});

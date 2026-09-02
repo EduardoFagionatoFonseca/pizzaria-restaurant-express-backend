@@ -3,12 +3,19 @@ import { DeleteProductService } from "../../services/product/DeleteProductServic
 
 export class DeleteProductController {
   async handle(req: Request, res: Response) {
-    const product_id = req.query?.product_id as string;
+    try {
+      const product_id = req.query?.product_id as string;
 
-    const deleteProduct = new DeleteProductService();
+      const deleteProduct = new DeleteProductService();
 
-    const product = await deleteProduct.execute({ product_id: product_id });
+      const product = await deleteProduct.execute({ product_id: product_id });
 
-    res.status(200).json(product);
+      res.status(200).json(product);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({
+        error: "Não foi possível excluir o produto. Tente novamente.",
+      });
+    }
   }
 }

@@ -961,13 +961,15 @@ npm run dev
 **Versão do Projeto**: 1.1.0 (categorias `/categories`, produtos `POST /product` + Cloudinary)
  
 
-## Atualizacao Consolidada - 27/06/2026
+## Atualizacao Consolidada - 28/06/2026
 
-Esta secao consolida o estado atual do backend e substitui informacoes antigas deste documento que ficaram desatualizadas.
+Esta secao consolida o estado completo e atual do backend. Substitui totalmente todas as secoes anteriores que ficaram desatualizadas.
+
+---
 
 ### Versoes atuais do `package.json`
 
-Dependencias:
+Dependencias de producao:
 
 | Pacote | Versao |
 | --- | --- |
@@ -984,7 +986,7 @@ Dependencias:
 | `tsx` | `^4.21.0` |
 | `zod` | `^4.3.6` |
 
-Dev dependencies:
+Dependencias de desenvolvimento:
 
 | Pacote | Versao |
 | --- | --- |
@@ -997,35 +999,204 @@ Dev dependencies:
 | `prisma` | `^6.19.3` |
 | `typescript` | `^6.0.2` |
 
-### Estrutura atual relevante
+---
 
-Arquivos de pedidos/itens presentes hoje:
-
-```text
-src/controllers/order/AddItemToOrderController.ts
-src/controllers/order/CreateOrderController.ts
-src/controllers/order/DeleteItemController.ts
-src/controllers/order/ListOrdersController.ts
-src/services/order/AddItemToOrderService.ts
-src/services/order/CreateOrderService.ts
-src/services/order/DeleteItemService.ts
-src/services/order/ListOrdersService.ts
-src/schemas/orderSchema.ts
-```
-
-Arquivos de produtos presentes hoje:
+### Estrutura de pastas atual (completa)
 
 ```text
-src/controllers/product/CreateProductController.ts
-src/controllers/product/DeleteProductController.ts
-src/controllers/product/ListProductByCategoryController.ts
-src/controllers/product/ListProductsController.ts
-src/services/product/CreateProductService.ts
-src/services/product/DeleteProductService.ts
-src/services/product/ListProductByCategoryService.ts
-src/services/product/ListProductsService.ts
-src/schemas/productSchema.ts
+src/
+├── @types/express/index.d.ts
+├── config/
+│   ├── cloudinary.ts
+│   └── multer.ts
+├── controllers/
+│   ├── category/
+│   │   ├── CreateCategoryController.ts
+│   │   └── ListCategoriesController.ts
+│   ├── order/
+│   │   ├── AddItemToOrderController.ts
+│   │   ├── CreateOrderController.ts
+│   │   ├── DeleteItemController.ts
+│   │   ├── DeleteOrderController.ts
+│   │   ├── DetailOrderController.ts
+│   │   ├── FinishOrderController.ts
+│   │   ├── ListOrdersController.ts
+│   │   └── SendOrderController.ts
+│   ├── product/
+│   │   ├── CreateProductController.ts
+│   │   ├── DeleteProductController.ts
+│   │   ├── ListProductByCategoryController.ts
+│   │   └── ListProductsController.ts
+│   └── user/
+│       ├── AuthUserController.ts
+│       ├── CreateUserController.ts
+│       └── DetailUserController.ts
+├── generated/prisma/           # Codigo gerado pelo Prisma
+├── middlewares/
+│   ├── isAdmin.ts
+│   ├── isAuthenticated.ts
+│   └── validateSchema.ts
+├── prisma/index.ts
+├── schemas/
+│   ├── categorySchema.ts
+│   ├── orderSchema.ts
+│   ├── productSchema.ts
+│   └── userSchema.ts
+├── services/
+│   ├── category/
+│   │   ├── CreateCategoryService.ts
+│   │   └── ListCategoriesService.ts
+│   ├── order/
+│   │   ├── AddItemToOrderService.ts
+│   │   ├── CreateOrderService.ts
+│   │   ├── DeleteItemService.ts
+│   │   ├── DeleteOrderService.ts
+│   │   ├── DetailOrderService.ts
+│   │   ├── finishOrderService.ts
+│   │   ├── ListOrdersService.ts
+│   │   └── sendOrderService.ts
+│   ├── product/
+│   │   ├── CreateProductService.ts
+│   │   ├── DeleteProductService.ts
+│   │   ├── ListProductByCategoryService.ts
+│   │   └── ListProductsService.ts
+│   └── user/
+│       ├── AuthUserService.ts
+│       ├── CreateUserService.ts
+│       └── DetailsUserService.ts
+├── routes.ts
+└── server.ts
 ```
+
+---
+
+### Todos os controllers
+
+| Controller | Arquivo | Descricao |
+| --- | --- | --- |
+| `CreateUserController` | `controllers/user/` | Cria novo usuario |
+| `AuthUserController` | `controllers/user/` | Autentica usuario e retorna JWT |
+| `DetailUserController` | `controllers/user/` | Retorna dados do usuario autenticado |
+| `CreateCategoryController` | `controllers/category/` | Cria nova categoria (admin) |
+| `ListCategoriesController` | `controllers/category/` | Lista todas as categorias |
+| `CreateProductController` | `controllers/product/` | Cria produto com upload de imagem (admin) |
+| `ListProductsController` | `controllers/product/` | Lista produtos, filtravel por `disabled` |
+| `DeleteProductController` | `controllers/product/` | Arquiva produto via `disabled = true` (admin) |
+| `ListProductByCategoryController` | `controllers/product/` | Lista produtos ativos de uma categoria |
+| `CreateOrderController` | `controllers/order/` | Cria pedido em modo rascunho |
+| `ListOrdersController` | `controllers/order/` | Lista pedidos, filtravel por `draft` |
+| `DetailOrderController` | `controllers/order/` | Retorna detalhes completos de um pedido |
+| `AddItemToOrderController` | `controllers/order/` | Adiciona item a um pedido aberto |
+| `DeleteItemController` | `controllers/order/` | Remove item de um pedido |
+| `SendOrderController` | `controllers/order/` | Envia pedido (rascunho → ativo) |
+| `FinishOrderController` | `controllers/order/` | Finaliza pedido (ativo → fechado) |
+| `DeleteOrderController` | `controllers/order/` | Exclui pedido permanentemente |
+
+---
+
+### Todos os services
+
+| Service | Arquivo | Descricao |
+| --- | --- | --- |
+| `CreateUserService` | `services/user/` | Verifica email duplicado, criptografa senha, cria usuario |
+| `AuthUserService` | `services/user/` | Valida credenciais e retorna JWT |
+| `DetailsUserService` | `services/user/` | Busca usuario por `user_id` do token |
+| `CreateCategoryService` | `services/category/` | Cria categoria (nome unico) |
+| `ListCategoriesService` | `services/category/` | Retorna todas as categorias ordenadas por nome |
+| `CreateProductService` | `services/product/` | Valida categoria, nome unico, faz upload ao Cloudinary |
+| `ListProductsService` | `services/product/` | Lista produtos filtrando por `disabled` |
+| `DeleteProductService` | `services/product/` | Marca `disabled = true` no produto |
+| `ListProductsByCategoryService` | `services/product/` | Retorna produtos ativos de uma categoria |
+| `CreateOrderService` | `services/order/` | Cria pedido com `draft = true`, `status = false` |
+| `ListOrdersService` | `services/order/` | Lista pedidos filtrando por `draft` |
+| `DetailOrderService` | `services/order/` | Busca pedido com seus itens e produtos |
+| `AddItemToOrderService` | `services/order/` | Valida pedido e produto, cria item com `total = price * amount` |
+| `DeleteItemService` | `services/order/` | Verifica existencia do item e o remove |
+| `SendOrderService` | `services/order/` | Muda `draft = false`, rejeita se ja enviado |
+| `FinishOrderService` | `services/order/` | Muda `status = true`, rejeita se ja finalizado |
+| `DeleteOrderService` | `services/order/` | Verifica existencia e exclui o pedido |
+
+---
+
+### Rotas atuais (completas)
+
+**Usuarios:**
+
+| Metodo | Rota | Middlewares | Descricao |
+| --- | --- | --- | --- |
+| `POST` | `/users` | `validateSchema(createUserSchema)` | Cria usuario |
+| `POST` | `/session` | `validateSchema(authUserSchema)` | Autentica usuario |
+| `POST` | `/me` | `isAuthenticated` | Retorna usuario autenticado |
+
+**Categorias:**
+
+| Metodo | Rota | Middlewares | Descricao |
+| --- | --- | --- | --- |
+| `GET` | `/categories` | `isAuthenticated` | Lista categorias |
+| `POST` | `/categories` | `isAuthenticated`, `isAdmin`, `validateSchema(categorySchema)` | Cria categoria |
+
+**Produtos:**
+
+| Metodo | Rota | Middlewares | Descricao |
+| --- | --- | --- | --- |
+| `GET` | `/products` | `isAuthenticated`, `validateSchema(listProductsSchema)` | Lista produtos |
+| `POST` | `/product` | `isAuthenticated`, `isAdmin`, `upload.single("file")`, `validateSchema(createProductSchema)` | Cria produto |
+| `DELETE` | `/product` | `isAuthenticated`, `isAdmin` | Arquiva produto |
+| `GET` | `/category/product` | `isAuthenticated`, `validateSchema(listProductByCategorySchema)` | Lista produtos por categoria |
+
+**Pedidos e Itens:**
+
+| Metodo | Rota | Middlewares | Descricao |
+| --- | --- | --- | --- |
+| `POST` | `/order` | `isAuthenticated`, `validateSchema(createOrderSchema)` | Cria pedido |
+| `GET` | `/orders` | `isAuthenticated` | Lista pedidos |
+| `GET` | `/order/:order_id` | `isAuthenticated`, `validateSchema(detailOrderSchema)` | Detalha pedido |
+| `POST` | `/order/:order_id/items` | `isAuthenticated`, `validateSchema(addItemSchema)` | Adiciona item |
+| `PATCH` | `/order/:order_id/send` | `isAuthenticated`, `validateSchema(sendOrderSchema)` | Envia pedido |
+| `PATCH` | `/order/:order_id/finish` | `isAuthenticated`, `validateSchema(finishOrderSchema)` | Finaliza pedido |
+| `DELETE` | `/order/:order_id` | `isAuthenticated`, `validateSchema(deleteOrderSchema)` | Exclui pedido |
+| `DELETE` | `/items/:item_Id` | `isAuthenticated`, `validateSchema(deleteItemSchema)` | Remove item |
+
+---
+
+### Schemas de validacao atuais
+
+**`userSchema.ts`:**
+
+```ts
+createUserSchema: body { username: string (min 3), email: email valido, password: string (min 6) }
+authUserSchema:   body { email: email valido, password: string (min 1) }
+```
+
+Observacao: o campo do usuario e `username`, nao `name`.
+
+**`categorySchema.ts`:**
+
+```ts
+categorySchema: body { name: string (min 2) }
+```
+
+**`productSchema.ts`:**
+
+```ts
+createProductSchema:         body { name: string (min 1), price: string (apenas digitos), description: string (min 1), category_id: string }
+listProductsSchema:          query { disabled?: string (default "false") }
+listProductByCategorySchema: query { category_id: string }
+```
+
+**`orderSchema.ts`:**
+
+```ts
+createOrderSchema:  body { table: number inteiro positivo, name: string (min 1) }
+addItemSchema:      body { product_id: uuid, amount: number inteiro positivo }, params { order_id: uuid }
+deleteItemSchema:   params { item_Id: uuid }
+detailOrderSchema:  params { order_id: uuid }
+sendOrderSchema:    params { order_id: uuid }, body? { name?: string }
+finishOrderSchema:  params { order_id: uuid }
+deleteOrderSchema:  params { order_id: uuid }
+```
+
+---
 
 ### Prisma e banco
 
@@ -1050,80 +1221,15 @@ O model `Item` possui o campo `total Int`, calculado no `AddItemToOrderService` 
 total: productExists.price * amount
 ```
 
-### Rotas atuais
+O campo `Order.draft` representa o estado do pedido:
+- `draft = true` → pedido em rascunho (ainda sendo montado)
+- `draft = false` → pedido enviado para producao
 
-Usuarios:
+O campo `Order.status` representa se o pedido foi fechado:
+- `status = false` → pedido aberto/em andamento
+- `status = true` → pedido finalizado/fechado
 
-- `POST /users` - cria usuario com `validateSchema(createUserSchema)`.
-- `POST /session` - autentica usuario com `validateSchema(authUserSchema)`.
-- `POST /me` - retorna usuario autenticado. Observacao: a rota atual e `POST`, nao `GET`.
-
-Categorias:
-
-- `GET /categories` - autenticada.
-- `POST /categories` - autenticada, admin e validada com `categorySchema`.
-
-Produtos:
-
-- `GET /products` - autenticada, aceita query `disabled` e usa `listProductsSchema`.
-- `POST /product` - autenticada, admin, multipart `file` e `createProductSchema`.
-- `DELETE /product` - autenticada e admin, recebe `product_id` por query e marca `disabled = true`.
-- `GET /category/product` - autenticada, recebe `category_id` por query e usa `listProductByCategorySchema`.
-
-Pedidos e itens:
-
-- `POST /order` - autenticada, cria pedido com `createOrderSchema`.
-- `GET /orders` - autenticada, lista pedidos filtrando por query `draft`.
-- `POST /order/:order_id/items` - autenticada, adiciona item ao pedido com `addItemSchema`.
-- `DELETE /items/:item_Id` - autenticada, remove item do pedido com `deleteItemSchema`.
-
-### Schema de pedidos atual
-
-`createOrderSchema` valida:
-
-```ts
-body: {
-  table: number;
-  name: string;
-}
-```
-
-`addItemSchema` valida:
-
-```ts
-body: {
-  product_id: uuid;
-  amount: number inteiro positivo;
-},
-params: {
-  order_id: uuid;
-}
-```
-
-`deleteItemSchema` valida:
-
-```ts
-params: {
-  item_Id: uuid;
-}
-```
-
-### Regra da rota `DELETE /items/:item_Id`
-
-A rota foi criada seguindo controller + service + schema:
-
-- `routes.ts` aplica `isAuthenticated` e `validateSchema(deleteItemSchema)`.
-- `DeleteItemController` extrai `item_Id` dos params.
-- `DeleteItemService` verifica se o item existe com `findUnique`.
-- Se nao existir, lanca `Item not found`.
-- Se existir, remove com `prismaClient.item.delete`.
-- Resposta de sucesso:
-
-```json
-{
-  "message": "Item successfully deleted"
-}
-```
+---
 
 ### Configuracoes atuais
 
@@ -1140,16 +1246,21 @@ Scripts atuais:
 }
 ```
 
-### Observacoes de boas praticas usadas no projeto
+---
 
-- Controllers devem continuar finos: extrair dados, chamar service e retornar resposta.
-- Services concentram regras de negocio e acesso ao Prisma.
-- Schemas Zod validam `body`, `query` e `params` antes do controller.
+### Observacoes de boas praticas do projeto
+
+- Controllers sao finos: extraem dados da requisicao, chamam o service e retornam a resposta.
+- Services concentram todas as regras de negocio e acesso ao Prisma.
+- Schemas Zod validam `body`, `query` e `params` antes do controller via `validateSchema`.
 - Rotas administrativas usam `isAuthenticated` + `isAdmin`.
-- Rotas de pedido/item usam `isAuthenticated`.
-- O error handler global transforma erros lancados em resposta `400`.
+- Rotas de pedido/item usam apenas `isAuthenticated`.
+- O error handler global em `server.ts` transforma qualquer `throw new Error(msg)` em resposta `400 { error: msg }`.
+- `DeleteProductService` nao exclui fisicamente o produto: marca `disabled = true` para preservar historico de pedidos.
+- Precos sao armazenados em centavos (inteiro) para evitar aritmetica de ponto flutuante.
+- O campo `total` do `Item` e calculado no momento da insercao (`price * amount`) e persistido no banco.
 
 ---
 
-**Documento atualizado em**: 27/06/2026  
-**Versao do Projeto documentada**: 1.2.0 (orders/items, listagem de produtos, delete de item e configuracao Prisma atual)
+**Documento atualizado em**: 28/06/2026
+**Versao do Projeto documentada**: 1.3.0 (rotas completas de orders: detail, send, finish, delete; documentacao de todos os controllers e services)
