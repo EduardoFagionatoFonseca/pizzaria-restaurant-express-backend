@@ -31,6 +31,7 @@ class CreateUserService {
           username: normalizedUsername,
           email,
           password: passwordHash,
+          role: "ADMIN", // NECESSARY FOR DEMONSTRATION PURPOSES SINCE THIS APP HAS AN ACCESS DENIED FOR NON ADMINS
         },
         select: {
           id: true,
