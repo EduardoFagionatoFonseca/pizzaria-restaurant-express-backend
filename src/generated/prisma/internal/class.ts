@@ -17,8 +17,8 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.7.0",
-  "engineVersion": "75cbdc1eb7150937890ad5465d861175c6624711",
+  "clientVersion": "7.8.0",
+  "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
   "activeProvider": "postgresql",
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\n// to create a new migration > npx prisma migrate dev \n// npx prisma generate\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  STAFF\n  ADMIN\n}\n\nmodel User {\n  id       String @id @default(uuid())\n  username String\n  password String\n  email    String @unique\n  role     Role   @default(STAFF)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@map(\"users\")\n}\n\nmodel Category {\n  id   String @id @default(uuid())\n  name String @unique\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  products  Product[]\n\n  @@map(\"categories\")\n}\n\nmodel Product {\n  id          String  @id @default(uuid())\n  name        String  @unique\n  price       Int\n  description String\n  banner      String\n  disabled    Boolean @default(false)\n\n  category_id String\n  category    Category @relation(fields: [category_id], references: [id], onDelete: Cascade)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  item Item[]\n\n  @@map(\"products\")\n}\n\nmodel Order {\n  id     String  @id @default(uuid())\n  table  Int\n  name   String?\n  status Boolean @default(false) // false = pendente, true = pronto\n  draft  Boolean @default(true) // false ainda e rascunho, true ja foi enviado para a cozinha\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  items Item[]\n\n  @@map(\"orders\")\n}\n\nmodel Item {\n  id     String @id @default(uuid())\n  amount Int\n  total  Int\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  order_id String\n  order    Order  @relation(fields: [order_id], references: [id], onDelete: Cascade)\n\n  product_id String\n  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)\n\n  @@map(\"items\")\n}\n",
   "runtimeDataModel": {
@@ -180,7 +180,7 @@ export interface PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => runtime.Types.Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<R>
 
