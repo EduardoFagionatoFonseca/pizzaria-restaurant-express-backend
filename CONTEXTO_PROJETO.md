@@ -72,7 +72,7 @@ Requisição HTTP → Rotas → Middlewares → Controller → Service → Banco
 | **@types/cors**         | ^2.8.19  | Tipos TypeScript para CORS    |
 | **@types/jsonwebtoken** | ^9.0.10  | Tipos TypeScript para JWT     |
 | **@types/node**         | ^24.10.0 | Tipos TypeScript para Node.js |
-| **@types/multer**       | ^8.20.0    | Tipos TypeScript para Multer  |
+| **@types/multer**       | ^8.20.0  | Tipos TypeScript para Multer  |
 | **prisma**              | ^6.19.0  | CLI do Prisma ORM             |
 
 ### Banco de Dados
@@ -959,7 +959,6 @@ npm run dev
 
 **Documento atualizado em**: 18/04/2026  
 **Versão do Projeto**: 1.1.0 (categorias `/categories`, produtos `POST /product` + Cloudinary)
- 
 
 ## Atualizacao Consolidada - 28/06/2026
 
@@ -971,33 +970,33 @@ Esta secao consolida o estado completo e atual do backend. Substitui totalmente 
 
 Dependencias de producao:
 
-| Pacote | Versao |
-| --- | --- |
-| `@prisma/adapter-pg` | `^7.7.0` |
-| `@prisma/client` | `^7.7.0` |
-| `bcryptjs` | `^3.0.3` |
-| `cloudinary` | `^2.9.0` |
-| `cors` | `^2.8.6` |
-| `dotenv` | `^17.4.2` |
-| `express` | `^5.2.1` |
-| `jsonwebtoken` | `^9.0.3` |
-| `multer` | `^2.1.1` |
-| `pg` | `^8.20.0` |
-| `tsx` | `^4.21.0` |
-| `zod` | `^4.3.6` |
+| Pacote               | Versao    |
+| -------------------- | --------- |
+| `@prisma/adapter-pg` | `^7.7.0`  |
+| `@prisma/client`     | `^7.7.0`  |
+| `bcryptjs`           | `^3.0.3`  |
+| `cloudinary`         | `^2.9.0`  |
+| `cors`               | `^2.8.6`  |
+| `dotenv`             | `^17.4.2` |
+| `express`            | `^5.2.1`  |
+| `jsonwebtoken`       | `^9.0.3`  |
+| `multer`             | `^2.1.1`  |
+| `pg`                 | `^8.20.0` |
+| `tsx`                | `^4.21.0` |
+| `zod`                | `^4.3.6`  |
 
 Dependencias de desenvolvimento:
 
-| Pacote | Versao |
-| --- | --- |
-| `@types/cors` | `^2.8.19` |
-| `@types/express` | `^5.0.6` |
+| Pacote                | Versao    |
+| --------------------- | --------- |
+| `@types/cors`         | `^2.8.19` |
+| `@types/express`      | `^5.0.6`  |
 | `@types/jsonwebtoken` | `^9.0.10` |
-| `@types/multer` | `^2.1.0` |
-| `@types/node` | `^25.9.4` |
-| `@types/pg` | `^8.20.0` |
-| `prisma` | `^6.19.3` |
-| `typescript` | `^6.0.2` |
+| `@types/multer`       | `^2.1.0`  |
+| `@types/node`         | `^25.9.4` |
+| `@types/pg`           | `^8.20.0` |
+| `prisma`              | `^6.19.3` |
+| `typescript`          | `^6.0.2`  |
 
 ---
 
@@ -1072,49 +1071,49 @@ src/
 
 ### Todos os controllers
 
-| Controller | Arquivo | Descricao |
-| --- | --- | --- |
-| `CreateUserController` | `controllers/user/` | Cria novo usuario |
-| `AuthUserController` | `controllers/user/` | Autentica usuario e retorna JWT |
-| `DetailUserController` | `controllers/user/` | Retorna dados do usuario autenticado |
-| `CreateCategoryController` | `controllers/category/` | Cria nova categoria (admin) |
-| `ListCategoriesController` | `controllers/category/` | Lista todas as categorias |
-| `CreateProductController` | `controllers/product/` | Cria produto com upload de imagem (admin) |
-| `ListProductsController` | `controllers/product/` | Lista produtos, filtravel por `disabled` |
-| `DeleteProductController` | `controllers/product/` | Arquiva produto via `disabled = true` (admin) |
-| `ListProductByCategoryController` | `controllers/product/` | Lista produtos ativos de uma categoria |
-| `CreateOrderController` | `controllers/order/` | Cria pedido em modo rascunho |
-| `ListOrdersController` | `controllers/order/` | Lista pedidos, filtravel por `draft` |
-| `DetailOrderController` | `controllers/order/` | Retorna detalhes completos de um pedido |
-| `AddItemToOrderController` | `controllers/order/` | Adiciona item a um pedido aberto |
-| `DeleteItemController` | `controllers/order/` | Remove item de um pedido |
-| `SendOrderController` | `controllers/order/` | Envia pedido (rascunho → ativo) |
-| `FinishOrderController` | `controllers/order/` | Finaliza pedido (ativo → fechado) |
-| `DeleteOrderController` | `controllers/order/` | Exclui pedido permanentemente |
+| Controller                        | Arquivo                 | Descricao                                     |
+| --------------------------------- | ----------------------- | --------------------------------------------- |
+| `CreateUserController`            | `controllers/user/`     | Cria novo usuario                             |
+| `AuthUserController`              | `controllers/user/`     | Autentica usuario e retorna JWT               |
+| `DetailUserController`            | `controllers/user/`     | Retorna dados do usuario autenticado          |
+| `CreateCategoryController`        | `controllers/category/` | Cria nova categoria (admin)                   |
+| `ListCategoriesController`        | `controllers/category/` | Lista todas as categorias                     |
+| `CreateProductController`         | `controllers/product/`  | Cria produto com upload de imagem (admin)     |
+| `ListProductsController`          | `controllers/product/`  | Lista produtos, filtravel por `disabled`      |
+| `DeleteProductController`         | `controllers/product/`  | Arquiva produto via `disabled = true` (admin) |
+| `ListProductByCategoryController` | `controllers/product/`  | Lista produtos ativos de uma categoria        |
+| `CreateOrderController`           | `controllers/order/`    | Cria pedido em modo rascunho                  |
+| `ListOrdersController`            | `controllers/order/`    | Lista pedidos, filtravel por `draft`          |
+| `DetailOrderController`           | `controllers/order/`    | Retorna detalhes completos de um pedido       |
+| `AddItemToOrderController`        | `controllers/order/`    | Adiciona item a um pedido aberto              |
+| `DeleteItemController`            | `controllers/order/`    | Remove item de um pedido                      |
+| `SendOrderController`             | `controllers/order/`    | Envia pedido (rascunho → ativo)               |
+| `FinishOrderController`           | `controllers/order/`    | Finaliza pedido (ativo → fechado)             |
+| `DeleteOrderController`           | `controllers/order/`    | Exclui pedido permanentemente                 |
 
 ---
 
 ### Todos os services
 
-| Service | Arquivo | Descricao |
-| --- | --- | --- |
-| `CreateUserService` | `services/user/` | Verifica email duplicado, criptografa senha, cria usuario |
-| `AuthUserService` | `services/user/` | Valida credenciais e retorna JWT |
-| `DetailsUserService` | `services/user/` | Busca usuario por `user_id` do token |
-| `CreateCategoryService` | `services/category/` | Cria categoria (nome unico) |
-| `ListCategoriesService` | `services/category/` | Retorna todas as categorias ordenadas por nome |
-| `CreateProductService` | `services/product/` | Valida categoria, nome unico, faz upload ao Cloudinary |
-| `ListProductsService` | `services/product/` | Lista produtos filtrando por `disabled` |
-| `DeleteProductService` | `services/product/` | Marca `disabled = true` no produto |
-| `ListProductsByCategoryService` | `services/product/` | Retorna produtos ativos de uma categoria |
-| `CreateOrderService` | `services/order/` | Cria pedido com `draft = true`, `status = false` |
-| `ListOrdersService` | `services/order/` | Lista pedidos filtrando por `draft` |
-| `DetailOrderService` | `services/order/` | Busca pedido com seus itens e produtos |
-| `AddItemToOrderService` | `services/order/` | Valida pedido e produto, cria item com `total = price * amount` |
-| `DeleteItemService` | `services/order/` | Verifica existencia do item e o remove |
-| `SendOrderService` | `services/order/` | Muda `draft = false`, rejeita se ja enviado |
-| `FinishOrderService` | `services/order/` | Muda `status = true`, rejeita se ja finalizado |
-| `DeleteOrderService` | `services/order/` | Verifica existencia e exclui o pedido |
+| Service                         | Arquivo              | Descricao                                                       |
+| ------------------------------- | -------------------- | --------------------------------------------------------------- |
+| `CreateUserService`             | `services/user/`     | Verifica email duplicado, criptografa senha, cria usuario       |
+| `AuthUserService`               | `services/user/`     | Valida credenciais e retorna JWT                                |
+| `DetailsUserService`            | `services/user/`     | Busca usuario por `user_id` do token                            |
+| `CreateCategoryService`         | `services/category/` | Cria categoria (nome unico)                                     |
+| `ListCategoriesService`         | `services/category/` | Retorna todas as categorias ordenadas por nome                  |
+| `CreateProductService`          | `services/product/`  | Valida categoria, nome unico, faz upload ao Cloudinary          |
+| `ListProductsService`           | `services/product/`  | Lista produtos filtrando por `disabled`                         |
+| `DeleteProductService`          | `services/product/`  | Marca `disabled = true` no produto                              |
+| `ListProductsByCategoryService` | `services/product/`  | Retorna produtos ativos de uma categoria                        |
+| `CreateOrderService`            | `services/order/`    | Cria pedido com `draft = true`, `status = false`                |
+| `ListOrdersService`             | `services/order/`    | Lista pedidos filtrando por `draft`                             |
+| `DetailOrderService`            | `services/order/`    | Busca pedido com seus itens e produtos                          |
+| `AddItemToOrderService`         | `services/order/`    | Valida pedido e produto, cria item com `total = price * amount` |
+| `DeleteItemService`             | `services/order/`    | Verifica existencia do item e o remove                          |
+| `SendOrderService`              | `services/order/`    | Muda `draft = false`, rejeita se ja enviado                     |
+| `FinishOrderService`            | `services/order/`    | Muda `status = true`, rejeita se ja finalizado                  |
+| `DeleteOrderService`            | `services/order/`    | Verifica existencia e exclui o pedido                           |
 
 ---
 
@@ -1122,40 +1121,40 @@ src/
 
 **Usuarios:**
 
-| Metodo | Rota | Middlewares | Descricao |
-| --- | --- | --- | --- |
-| `POST` | `/users` | `validateSchema(createUserSchema)` | Cria usuario |
-| `POST` | `/session` | `validateSchema(authUserSchema)` | Autentica usuario |
-| `POST` | `/me` | `isAuthenticated` | Retorna usuario autenticado |
+| Metodo | Rota       | Middlewares                        | Descricao                   |
+| ------ | ---------- | ---------------------------------- | --------------------------- |
+| `POST` | `/users`   | `validateSchema(createUserSchema)` | Cria usuario                |
+| `POST` | `/session` | `validateSchema(authUserSchema)`   | Autentica usuario           |
+| `POST` | `/me`      | `isAuthenticated`                  | Retorna usuario autenticado |
 
 **Categorias:**
 
-| Metodo | Rota | Middlewares | Descricao |
-| --- | --- | --- | --- |
-| `GET` | `/categories` | `isAuthenticated` | Lista categorias |
-| `POST` | `/categories` | `isAuthenticated`, `isAdmin`, `validateSchema(categorySchema)` | Cria categoria |
+| Metodo | Rota          | Middlewares                                                    | Descricao        |
+| ------ | ------------- | -------------------------------------------------------------- | ---------------- |
+| `GET`  | `/categories` | `isAuthenticated`                                              | Lista categorias |
+| `POST` | `/categories` | `isAuthenticated`, `isAdmin`, `validateSchema(categorySchema)` | Cria categoria   |
 
 **Produtos:**
 
-| Metodo | Rota | Middlewares | Descricao |
-| --- | --- | --- | --- |
-| `GET` | `/products` | `isAuthenticated`, `validateSchema(listProductsSchema)` | Lista produtos |
-| `POST` | `/product` | `isAuthenticated`, `isAdmin`, `upload.single("file")`, `validateSchema(createProductSchema)` | Cria produto |
-| `DELETE` | `/product` | `isAuthenticated`, `isAdmin` | Arquiva produto |
-| `GET` | `/category/product` | `isAuthenticated`, `validateSchema(listProductByCategorySchema)` | Lista produtos por categoria |
+| Metodo   | Rota                | Middlewares                                                                                  | Descricao                    |
+| -------- | ------------------- | -------------------------------------------------------------------------------------------- | ---------------------------- |
+| `GET`    | `/products`         | `isAuthenticated`, `validateSchema(listProductsSchema)`                                      | Lista produtos               |
+| `POST`   | `/product`          | `isAuthenticated`, `isAdmin`, `upload.single("file")`, `validateSchema(createProductSchema)` | Cria produto                 |
+| `DELETE` | `/product`          | `isAuthenticated`, `isAdmin`                                                                 | Arquiva produto              |
+| `GET`    | `/category/product` | `isAuthenticated`, `validateSchema(listProductByCategorySchema)`                             | Lista produtos por categoria |
 
 **Pedidos e Itens:**
 
-| Metodo | Rota | Middlewares | Descricao |
-| --- | --- | --- | --- |
-| `POST` | `/order` | `isAuthenticated`, `validateSchema(createOrderSchema)` | Cria pedido |
-| `GET` | `/orders` | `isAuthenticated` | Lista pedidos |
-| `GET` | `/order/:order_id` | `isAuthenticated`, `validateSchema(detailOrderSchema)` | Detalha pedido |
-| `POST` | `/order/:order_id/items` | `isAuthenticated`, `validateSchema(addItemSchema)` | Adiciona item |
-| `PATCH` | `/order/:order_id/send` | `isAuthenticated`, `validateSchema(sendOrderSchema)` | Envia pedido |
-| `PATCH` | `/order/:order_id/finish` | `isAuthenticated`, `validateSchema(finishOrderSchema)` | Finaliza pedido |
-| `DELETE` | `/order/:order_id` | `isAuthenticated`, `validateSchema(deleteOrderSchema)` | Exclui pedido |
-| `DELETE` | `/items/:item_Id` | `isAuthenticated`, `validateSchema(deleteItemSchema)` | Remove item |
+| Metodo   | Rota                      | Middlewares                                            | Descricao       |
+| -------- | ------------------------- | ------------------------------------------------------ | --------------- |
+| `POST`   | `/order`                  | `isAuthenticated`, `validateSchema(createOrderSchema)` | Cria pedido     |
+| `GET`    | `/orders`                 | `isAuthenticated`                                      | Lista pedidos   |
+| `GET`    | `/order/:order_id`        | `isAuthenticated`, `validateSchema(detailOrderSchema)` | Detalha pedido  |
+| `POST`   | `/order/:order_id/items`  | `isAuthenticated`, `validateSchema(addItemSchema)`     | Adiciona item   |
+| `PATCH`  | `/order/:order_id/send`   | `isAuthenticated`, `validateSchema(sendOrderSchema)`   | Envia pedido    |
+| `PATCH`  | `/order/:order_id/finish` | `isAuthenticated`, `validateSchema(finishOrderSchema)` | Finaliza pedido |
+| `DELETE` | `/order/:order_id`        | `isAuthenticated`, `validateSchema(deleteOrderSchema)` | Exclui pedido   |
+| `DELETE` | `/items/:item_Id`         | `isAuthenticated`, `validateSchema(deleteItemSchema)`  | Remove item     |
 
 ---
 
@@ -1218,14 +1217,16 @@ A URL do banco fica em `prisma.config.ts`, carregada de `process.env["DATABASE_U
 O model `Item` possui o campo `total Int`, calculado no `AddItemToOrderService` como:
 
 ```ts
-total: productExists.price * amount
+total: productExists.price * amount;
 ```
 
 O campo `Order.draft` representa o estado do pedido:
+
 - `draft = true` → pedido em rascunho (ainda sendo montado)
 - `draft = false` → pedido enviado para producao
 
 O campo `Order.status` representa se o pedido foi fechado:
+
 - `status = false` → pedido aberto/em andamento
 - `status = true` → pedido finalizado/fechado
 

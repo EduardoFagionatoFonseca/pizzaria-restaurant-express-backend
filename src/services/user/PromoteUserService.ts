@@ -1,27 +1,18 @@
 import prismaClient from "../../prisma";
 interface promoteUserProps {
   // requesterId: string;
+  role: "ADMIN" | "STAFF";
   userId: string;
 }
 
 export class PromoteUserService {
-  async execute({ userId }: promoteUserProps) {
-    // const userIsAdmin = await prismaClient.user.findFirst({
-    //   where: {
-    //     id: requesterId,
-    //   },
-    // });
-    // if (!userIsAdmin) {
-    //   throw new Error("Voce deve ser admin para acessar essa rota!");
-    // }
-    // not checking here because we have a middleware to check for admin permissions
-
+  async execute({ userId, role }: promoteUserProps) {
     const updatedUser = await prismaClient.user.update({
       where: {
         id: userId,
       },
       data: {
-        role: "ADMIN",
+        role: role,
       },
     });
 

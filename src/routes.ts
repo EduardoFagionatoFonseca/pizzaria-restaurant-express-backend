@@ -42,6 +42,7 @@ import { SendOrderController } from "./controllers/order/SendOrderController";
 import { FinishOrderController } from "./controllers/order/FinishOrderController";
 import { DeleteOrderController } from "./controllers/order/DeleteOrderController";
 import { PromoteUserController } from "./controllers/user/PromoteUserController";
+import { ListUsersController } from "./controllers/user/ListUsersController";
 
 const router = Router();
 const upload = multer(uploadConfig);
@@ -53,6 +54,13 @@ router.post(
   new CreateUserController().handle,
 );
 
+router.get(
+  "/users",
+  isAuthenticated,
+  isAdmin,
+  new ListUsersController().handle,
+);
+
 router.post(
   "/session",
   validateSchema(authUserSchema),
@@ -62,7 +70,7 @@ router.post(
 router.get("/me", isAuthenticated, new DetailUserController().handle);
 
 router.patch(
-  "/promote",
+  "/users/:userId/promote",
   validateSchema(promoteUserSchema),
   isAuthenticated,
   isAdmin,

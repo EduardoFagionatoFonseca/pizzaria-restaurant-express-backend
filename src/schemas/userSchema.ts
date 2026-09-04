@@ -23,6 +23,9 @@ export const authUserSchema = z.object({
 
 export const promoteUserSchema = z.object({
   body: z.object({
+    role: z.enum(["ADMIN", "STAFF"]),
+  }),
+  params: z.object({
     userId: z.string(),
   }),
 });
